@@ -6,7 +6,18 @@ plugins {
     id 'maven-publish'
 }
 
-apply from: "${rootDir}/scripts/publish-root.gradle"
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.DanielDev17'
+                artifactId = 'smartmaterialspinner'
+                version = '1.0.0'
+            }
+        }
+    }
+}
 
 allprojects {
     tasks.withType(Javadoc).tap {
