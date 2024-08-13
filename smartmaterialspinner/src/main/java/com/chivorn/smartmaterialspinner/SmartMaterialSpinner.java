@@ -274,7 +274,8 @@ public class SmartMaterialSpinner<T> extends AppCompatSpinner implements Adapter
             } catch (Throwable ignored) {
             }
             if (typeface == null)
-                typeface = ResourcesCompat.getFont(context, R.font.museo_sans_500);
+                //typeface = ResourcesCompat.getFont(context, R.font.museo_sans_500);
+                typeface = Typeface.createFromAsset(getContext().getAssets(), typefacePath);
         }
         baseColor = typedArray.getColor(R.styleable.SmartMaterialSpinner_smsp_baseColor, defaultBaseColor);
         highlightColor = typedArray.getColor(R.styleable.SmartMaterialSpinner_smsp_highlightColor, defaultHighlightColor);
