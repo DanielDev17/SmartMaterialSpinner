@@ -20,37 +20,38 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.chivorn.smartmaterialspinner.** { *; }
-
--keep public class com.chivorn.smartmaterialspinner.SmartMaterialSpinner {
-    *;
-}
-
--keepclassmembers class * {
-    *** getResources();
-}
-
--keepclassmembers class * {
-    *** getAssets();
-}
-
--keep class * extends android.graphics.Typeface {
-    *;
-}
-
--keepnames class **.R$* {
-    *;
-}
-
--keep public class * extends android.content.res.Resources {
-    public <init>(...);
-}
-
--keepclassmembers class * {
-    @androidx.annotation.FontRes <fields>;
-}
-
--keep class com.chivorn.smartmaterialspinner.SmartMaterialSpinner { *; }
-
--keep class **.R$font { *; }
+# not working for my need
+#-keep class com.chivorn.smartmaterialspinner.** { *; }
+#
+#-keep public class com.chivorn.smartmaterialspinner.SmartMaterialSpinner {
+#    *;
+#}
+#
+#-keepclassmembers class * {
+#    *** getResources();
+#}
+#
+#-keepclassmembers class * {
+#    *** getAssets();
+#}
+#
+#-keep class * extends android.graphics.Typeface {
+#    *;
+#}
+#
+#-keepnames class **.R$* {
+#    *;
+#}
+#
+#-keep public class * extends android.content.res.Resources {
+#    public <init>(...);
+#}
+#
+#-keepclassmembers class * {
+#    @androidx.annotation.FontRes <fields>;
+#}
+#
+#-keep class com.chivorn.smartmaterialspinner.SmartMaterialSpinner { *; }
+#
+#-keep class **.R$font { *; }
 

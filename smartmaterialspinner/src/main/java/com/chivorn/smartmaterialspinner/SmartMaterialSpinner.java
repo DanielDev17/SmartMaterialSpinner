@@ -257,26 +257,39 @@ public class SmartMaterialSpinner<T> extends AppCompatSpinner implements Adapter
 
     private void initAttributes(Context context, AttributeSet attrs) {
         TypedArray defaultArray = context.obtainStyledAttributes(attrs, R.styleable.SmartMaterialSpinner);
-        int defaultBaseColor = ContextCompat.getColor(context, R.color.smsp_base_color); // defaultArray.getColor(1, 0);
+        int defaultBaseColor = ContextCompat.getColor(context, R.color.smsp_base_color);
         int defaultHighlightColor = ContextCompat.getColor(context, R.color.smsp_base_color);
         int defaultErrorColor = ContextCompat.getColor(context, R.color.smsp_error_color);
         defaultArray.recycle();
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SmartMaterialSpinner);
         String typefacePath = typedArray.getString(R.styleable.SmartMaterialSpinner_smsp_typeface);
+
         if (typefacePath != null) {
-            if (!typefacePath.contains("."))
+            if (!typefacePath.contains(".")) {
                 typefacePath += ".ttf"; // Set default extension as .ttf
+            }
             try {
                 String fontName = typefacePath.substring(typefacePath.lastIndexOf("/") + 1, typefacePath.lastIndexOf("."));
-                int fontId = this.getResources().getIdentifier(fontName, "font", getContext().getPackageName());
-                typeface = ResourcesCompat.getFont(getContext(), fontId);
+
+                // Evitar la carga si el nombre del archivo es sospechoso de ser minificado
+                if (!fontName.matches("\\d+")) {
+                    int fontId = this.getResources().getIdentifier(fontName, "font", getContext().getPackageName());
+                    if (fontId != 0) {
+                        typeface = ResourcesCompat.getFont(getContext(), fontId);
+                    } else {
+                        typeface = Typeface.createFromAsset(getContext().getAssets(), typefacePath);
+                    }
+                }
             } catch (Throwable ignored) {
             }
-            if (typeface == null)
-                //typeface = ResourcesCompat.getFont(context, R.font.museo_sans_500);
-                typeface = Typeface.createFromAsset(getContext().getAssets(), typefacePath);
+
+            // Si no se pudo cargar la fuente, usar una fuente predeterminada
+            if (typeface == null) {
+                typeface = ResourcesCompat.getFont(context, R.font.museo_sans_500); // Fuente predeterminada
+            }
         }
+
         baseColor = typedArray.getColor(R.styleable.SmartMaterialSpinner_smsp_baseColor, defaultBaseColor);
         highlightColor = typedArray.getColor(R.styleable.SmartMaterialSpinner_smsp_highlightColor, defaultHighlightColor);
         errorTextSize = typedArray.getDimensionPixelSize(R.styleable.SmartMaterialSpinner_smsp_errorTextSize, getResources().getDimensionPixelSize(R.dimen.smsp_default_error_text_size));
